@@ -9,8 +9,8 @@ import GlobalStyle from './styles/GlobalStyles';
 export default function App() {
   return (
     <BrowserRouter>
-      <Routes />
       <Header />
+      <Routes />
       <GlobalStyle />
     </BrowserRouter>
   );
