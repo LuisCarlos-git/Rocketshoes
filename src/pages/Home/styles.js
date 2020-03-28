@@ -37,13 +37,13 @@ export const ProductList = styled.ul`
       border: 0;
       overflow: hidden;
       margin-top: auto;
-      transition: background 0.2s;
+      transition: background 0.3s;
 
       display: flex;
       align-items: center;
 
       &:hover {
-        background: ${darken(0.1, '#7159c1')};
+        background: ${darken(0.3, '#7159c1')};
       }
 
       div {
