@@ -1,94 +1,47 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { MdAddShoppingCart } from 'react-icons/md';
+import api from '../../services/api';
+import { formatPrice } from '../../utils/format';
 
 import { ProductList } from './styles';
 
-export default function Home() {
-  return (
-    <ProductList>
-      <li>
-        <img src="https://w1.ezcdn.com.br/maze/fotos/grande/8823fg1/tenis-nike-react-presto-cosmic-clay.jpg" />
-        <strong>Tênis da hora</strong>
-        <span>R$ 129,90</span>
+export default class Home extends Component {
+  // eslint-disable-next-line react/state-in-constructor
+  state = {
+    products: [],
+  };
 
-        <button type="button">
-          <div>
-            <MdAddShoppingCart size={16} color="#fff" />
-          </div>
+  async componentDidMount() {
+    const response = await api.get('products');
 
-          <span>ADICIONAR AO CARRINHO</span>
-        </button>
-      </li>
+    const data = response.data.map((product) => ({
+      ...product,
+      priceFormatted: formatPrice(product.price),
+    }));
 
-      <li>
-        <img src="https://w1.ezcdn.com.br/maze/fotos/grande/8823fg1/tenis-nike-react-presto-cosmic-clay.jpg" />
-        <strong>Tênis da hora</strong>
-        <span>R$ 129,90</span>
+    this.setState({ products: data });
+  }
 
-        <button type="button">
-          <div>
-            <MdAddShoppingCart size={16} color="#fff" />
-          </div>
+  render() {
+    const { products } = this.state;
+    return (
+      <ProductList>
+        {products.map((product) => (
+          <li key={String(product.id)}>
+            <img src={product.image} alt={product.title} />
+            <strong>{product.title}</strong>
+            <span>{product.priceFormatted}</span>
 
-          <span>ADICIONAR AO CARRINHO</span>
-        </button>
-      </li>
+            <button type="button">
+              <div>
+                <MdAddShoppingCart size={16} color="#fff" />
+              </div>
 
-      <li>
-        <img src="https://w1.ezcdn.com.br/maze/fotos/grande/8823fg1/tenis-nike-react-presto-cosmic-clay.jpg" />
-        <strong>Tênis da hora</strong>
-        <span>R$ 129,90</span>
-
-        <button type="button">
-          <div>
-            <MdAddShoppingCart size={16} color="#fff" />
-          </div>
-
-          <span>ADICIONAR AO CARRINHO</span>
-        </button>
-      </li>
-
-      <li>
-        <img src="https://w1.ezcdn.com.br/maze/fotos/grande/8823fg1/tenis-nike-react-presto-cosmic-clay.jpg" />
-        <strong>Tênis da hora</strong>
-        <span>R$ 129,90</span>
-
-        <button type="button">
-          <div>
-            <MdAddShoppingCart size={16} color="#fff" />
-          </div>
-
-          <span>ADICIONAR AO CARRINHO</span>
-        </button>
-      </li>
-
-      <li>
-        <img src="https://w1.ezcdn.com.br/maze/fotos/grande/8823fg1/tenis-nike-react-presto-cosmic-clay.jpg" />
-        <strong>Tênis da hora</strong>
-        <span>R$ 129,90</span>
-
-        <button type="button">
-          <div>
-            <MdAddShoppingCart size={16} color="#fff" />
-          </div>
-
-          <span>ADICIONAR AO CARRINHO</span>
-        </button>
-      </li>
-
-      <li>
-        <img src="https://w1.ezcdn.com.br/maze/fotos/grande/8823fg1/tenis-nike-react-presto-cosmic-clay.jpg" />
-        <strong>Tênis da hora</strong>
-        <span>R$ 129,90</span>
-
-        <button type="button">
-          <div>
-            <MdAddShoppingCart size={16} color="#fff" />
-          </div>
-
-          <span>ADICIONAR AO CARRINHO</span>
-        </button>
-      </li>
-    </ProductList>
-  );
+              <span>ADICIONAR AO CARRINHO</span>
+            </button>
+          </li>
+        ))}
+      </ProductList>
+    );
+  }
 }
