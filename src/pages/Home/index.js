@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { MdAddShoppingCart } from 'react-icons/md';
+
+import * as CardActions from '../../store/modules/cart/action';
 import api from '../../services/api';
 import { formatPrice } from '../../utils/format';
 
 import { ProductList } from './styles';
 
-export default class Home extends Component {
+class Home extends Component {
   // eslint-disable-next-line react/state-in-constructor
   state = {
     products: [],
@@ -22,6 +26,12 @@ export default class Home extends Component {
     this.setState({ products: data });
   }
 
+  handleAddToCart = (product) => {
+    const { addToCart } = this.props;
+
+    addToCart(product);
+  };
+
   render() {
     const { products } = this.state;
     return (
@@ -32,7 +42,7 @@ export default class Home extends Component {
             <strong>{product.title}</strong>
             <span>{product.priceFormatted}</span>
 
-            <button type="button">
+            <button type="button" onClick={() => this.handleAddToCart(product)}>
               <div>
                 <MdAddShoppingCart size={16} color="#fff" />
               </div>
@@ -45,3 +55,8 @@ export default class Home extends Component {
     );
   }
 }
+
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(CardActions, dispatch);
+
+export default connect(null, mapDispatchToProps)(Home);
