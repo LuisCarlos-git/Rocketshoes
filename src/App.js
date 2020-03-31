@@ -3,7 +3,6 @@ import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 
 import './config/reactotron';
-
 import store from './store/index';
 
 import Routes from './routes';
